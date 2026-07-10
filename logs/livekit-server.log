@@ -1,0 +1,20 @@
+2026-07-11T00:34:18.983+0300	ERROR	livekit	config/config.go:638	secret is too short, should be at least 32 characters for security	{"apiKey": "devkey"}
+github.com/livekit/livekit-server/pkg/config.(*Config).ValidateKeys
+	/home/runner/go/pkg/mod/github.com/livekit/livekit-server@v1.12.0/pkg/config/config.go:638
+main.startServer
+	/home/runner/go/pkg/mod/github.com/livekit/livekit-server@v1.12.0/cmd/server/main.go:257
+github.com/urfave/cli/v3.(*Command).run
+	/home/runner/go/pkg/mod/github.com/urfave/cli/v3@v3.8.0/command_run.go:364
+github.com/urfave/cli/v3.(*Command).Run
+	/home/runner/go/pkg/mod/github.com/urfave/cli/v3@v3.8.0/command_run.go:93
+main.main
+	/home/runner/go/pkg/mod/github.com/livekit/livekit-server@v1.12.0/cmd/server/main.go:190
+runtime.main
+	/opt/hostedtoolcache/go/1.26.3/x64/src/runtime/proc.go:290
+2026-07-11T00:34:18.984+0300	INFO	livekit	hwstats/memory_linux.go:74	failed reading cgroup specific memory stats, falling back to system wide implementation
+2026-07-11T00:34:18.984+0300	INFO	livekit	routing/interfaces.go:180	using single-node routing
+2026-07-11T00:34:18.985+0300	INFO	livekit	service/server.go:265	starting LiveKit server	{"portHttp": 7880, "nodeID": "ND_xjRAnoRD4LCj", "nodeIP": "192.168.1.8", "version": "1.12.0", "rtc.portTCP": 7881, "rtc.portICERange": [50000, 60000]}
+2026-07-11T00:34:23.149+0300	INFO	livekit.agents	service/agentservice.go:303	worker registered	{"namespace": "", "jobType": "JT_ROOM", "agentName": "interview-agent", "workerID": "AW_Q5NmTgxgFxiR"}
+2026-07-11T00:34:27.171+0300	INFO	livekit.agents	service/agentservice.go:338	last worker deregistered	{"namespace": "", "jobType": "JT_ROOM", "agentName": "interview-agent", "workerID": "AW_Q5NmTgxgFxiR"}
+2026-07-11T00:34:27.171+0300	INFO	livekit.agents	agent/worker.go:485	closing worker	{"workerID": "AW_Q5NmTgxgFxiR", "agentName": "interview-agent", "jobType": "JT_ROOM", "workerID": "AW_Q5NmTgxgFxiR", "jobType": "JT_ROOM", "agentName": "interview-agent"}
+2026-07-11T00:34:27.568+0300	INFO	livekit	server/main.go:311	exit requested, shutting down	{"signal": "terminated", "force": false}

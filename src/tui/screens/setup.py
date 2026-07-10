@@ -72,6 +72,14 @@ class SetupScreen(Screen):
 
     def on_mount(self) -> None:
         self.query_one("#topic-input", Input).focus()
+        self._reset_connect_button()
+
+    def _reset_connect_button(self) -> None:
+        self.query_one("#connect-btn", Button).disabled = False
+        self.query_one("#status", Static).update("")
+
+    def on_screen_resume(self) -> None:
+        self._reset_connect_button()
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "connect-btn":

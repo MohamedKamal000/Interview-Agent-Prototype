@@ -14,6 +14,7 @@ from livekit.api import (
     CreateRoomRequest,
     LiveKitAPI,
     RoomAgentDispatch,
+    UpdateRoomMetadataRequest,
     VideoGrants,
 )
 from textual.app import App
@@ -84,7 +85,8 @@ class InterviewTUI(App):
 
     async def _cleanup(self) -> None:
         self.state.connected = False
-        await self.audio.stop()
+        with contextlib.suppress(Exception):
+            await self.audio.stop()
         if self.room:
             with contextlib.suppress(Exception):
                 await self.room.disconnect()
@@ -97,11 +99,9 @@ class InterviewTUI(App):
     async def _connect(self, topic: str, room_name: str | None = None) -> None:
         self._current_topic = topic
         self.state.topic = topic
-        room_slug = topic.lower().replace(" ", "-").replace("/", "-")
-        room_slug = "".join(c for c in room_slug if c.isalnum() or c == "-")
         room_name = (
             room_name
-            or f"interview-{room_slug}-{''.join(random.choices(string.ascii_lowercase, k=4))}"
+            or f"interview-{''.join(random.choices(string.ascii_lowercase, k=6))}"
         )
         self.state.room_name = room_name
 
@@ -114,11 +114,15 @@ class InterviewTUI(App):
 
             create_req = CreateRoomRequest(
                 name=room_name,
+                metadata=topic,
                 agents=[
-                    RoomAgentDispatch(agent_name="interview-agent"),
+                    RoomAgentDispatch(agent_name="interview-agent", metadata=topic),
                 ],
             )
             await self.api.room.create_room(create_req)
+            await self.api.room.update_room_metadata(
+                UpdateRoomMetadataRequest(room=room_name, metadata=topic)
+            )
             logger.info("Created room: %s", room_name)
 
             token = (
@@ -153,7 +157,9 @@ class InterviewTUI(App):
 
             self.push_screen("interview")
             screen = self.get_screen("interview")
-            screen.update_status(f"● Connected | Topic: {topic} | Room: {room_name}")
+            screen.update_status(
+                f"[green]●[/green] Connected | Topic: {topic} | Room: {room_name}"
+            )
 
         except asyncio.TimeoutError:
             logger.error("Connection timed out")
@@ -195,7 +201,9 @@ class InterviewTUI(App):
                 participant.identity,
             )
             if isinstance(track, rtc.AudioTrack):
-                task = asyncio.create_task(self.audio.play_agent_audio(track))
+                task = asyncio.create_task(
+                    self.audio.play_agent_audio(track, self.state)
+                )
                 self._background_tasks.add(task)
                 task.add_done_callback(self._background_tasks.discard)
 
@@ -256,6 +264,7 @@ class InterviewTUI(App):
         if self._connect_task and not self._connect_task.done():
             self._connect_task.cancel()
 
+        self._connect_task = None
         self._disconnect_task = asyncio.create_task(self._disconnect())
 
     async def _disconnect(self) -> None:

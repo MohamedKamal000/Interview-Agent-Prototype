@@ -126,7 +126,7 @@ class AudioManager:
                 )
                 await self.audio_source.capture_frame(frame)
 
-    async def play_agent_audio(self, track: rtc.AudioTrack):
+    async def play_agent_audio(self, track: rtc.AudioTrack, state: AppState):
         logger.info("Starting agent audio stream for track %s", track.sid)
         stream = rtc.AudioStream(track, sample_rate=SAMPLE_RATE, num_channels=CHANNELS)
         frame_count = 0
@@ -137,6 +137,9 @@ class AudioManager:
             data = bytes(event.frame.data)
             if len(data) > 0:
                 self._playback_queue.put(data)
+                samples = np.frombuffer(data, dtype=np.int16).astype(np.float32)
+                rms = float(np.sqrt(np.mean(samples**2)))
+                state.agent_level = min(rms / 8000, 1.0)
                 if frame_count % 50 == 0:
                     logger.info(
                         "Agent audio: %d frames, %d bytes each",
@@ -168,8 +171,10 @@ class AudioManager:
             with contextlib.suppress(asyncio.CancelledError):
                 await self._mic_task
             self._mic_task = None
-        if self._mic_pcm:
-            self._mic_pcm.close()
-        if self._speaker_pcm:
-            self._speaker_pcm.close()
+        with contextlib.suppress(Exception):
+            if self._mic_pcm:
+                self._mic_pcm.close()
+        with contextlib.suppress(Exception):
+            if self._speaker_pcm:
+                self._speaker_pcm.close()
         self.audio_source = None

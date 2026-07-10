@@ -67,9 +67,10 @@ class InterviewScreen(Screen):
     def on_mount(self) -> None:
         transcript = self.query_one("#transcript", RichLog)
         transcript.write("[bold]Connected to interview room.[/bold]")
-        transcript.write("Waiting for the interviewer to begin...")
+        transcript.write("Interview session starting...")
         transcript.write("")
         self._update_mic_indicator()
+        self.set_interval(0.1, self._update_agent_level)
 
     def add_transcript_line(self, text: str) -> None:
         transcript = self.query_one("#transcript", RichLog)
@@ -82,15 +83,22 @@ class InterviewScreen(Screen):
 
     def _render_status_bar(self):
         state = self.app.state
+        bars = "▁▂▃▄▅▆▇█"
+        agent_bar = bars[min(int(state.agent_level * 8), 7)]
         mic_state = "🔴 MUTED" if state.mic_muted else "🎤 LIVE"
         if self._status_text:
             self.query_one("#status-bar", Static).update(
-                f"{self._status_text} | Mic: {mic_state}"
+                f"{self._status_text} | Mic: {mic_state} | Agent: {agent_bar}"
             )
         else:
-            self.query_one("#status-bar", Static).update(f"Mic: {mic_state}")
+            self.query_one("#status-bar", Static).update(
+                f"Mic: {mic_state} | Agent: {agent_bar}"
+            )
 
     def _update_mic_indicator(self):
+        self._render_status_bar()
+
+    def _update_agent_level(self):
         self._render_status_bar()
 
     def action_toggle_mute(self):

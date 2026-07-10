@@ -63,14 +63,17 @@ async def interview_session(ctx: agents.JobContext):
         )
         return
 
-    logger.info("Interview session starting in room: %s", ctx.room.name)
+    topic = ctx.job.metadata or "general"
+    logger.info(
+        "Session: room=%s metadata=%s topic=%s",
+        ctx.room.name,
+        ctx.room.metadata,
+        topic,
+    )
     ctx.log_context_fields = {
         "room": ctx.room.name,
+        "topic": topic,
     }
-
-    # Extract interview topic from room name or metadata
-    # Room name format: "interview-<topic-slug>" or use metadata
-    topic = ctx.room.name.removeprefix("interview-").replace("-", " ")
 
     try:
         session = AgentSession(

@@ -1,0 +1,41 @@
+{"message": "starting worker", "level": "INFO", "name": "livekit.agents", "version": "1.6.4", "rtc-version": "1.1.12", "timestamp": "2026-07-10T21:34:21.502622+00:00"}
+{"message": "plugin registered", "level": "INFO", "name": "livekit.agents", "plugin": "livekit.plugins.google", "version": "1.6.4", "timestamp": "2026-07-10T21:34:21.502781+00:00"}
+{"message": "preloading plugins", "level": "INFO", "name": "livekit.agents", "packages": ["livekit.plugins.google", "av", "livekit.agents.inference._warmup"], "timestamp": "2026-07-10T21:34:21.502859+00:00"}
+{"message": "HTTP server listening on :8081", "level": "INFO", "name": "livekit.agents", "timestamp": "2026-07-10T21:34:21.505543+00:00"}
+{"message": "initializing process", "level": "INFO", "name": "livekit.agents", "pid": 158088, "timestamp": "2026-07-10T21:34:23.036651+00:00"}
+{"message": "initializing process", "level": "INFO", "name": "livekit.agents", "pid": 158090, "timestamp": "2026-07-10T21:34:23.042238+00:00"}
+{"message": "process initialized", "level": "INFO", "name": "livekit.agents", "pid": 158088, "elapsed_time": 0.01, "timestamp": "2026-07-10T21:34:23.047073+00:00"}
+{"message": "initializing process", "level": "INFO", "name": "livekit.agents", "pid": 158094, "timestamp": "2026-07-10T21:34:23.049067+00:00"}
+{"message": "initializing process", "level": "INFO", "name": "livekit.agents", "pid": 158096, "timestamp": "2026-07-10T21:34:23.055267+00:00"}
+{"message": "process initialized", "level": "INFO", "name": "livekit.agents", "pid": 158090, "elapsed_time": 0.01, "timestamp": "2026-07-10T21:34:23.055524+00:00"}
+{"message": "initializing process", "level": "INFO", "name": "livekit.agents", "pid": 158100, "timestamp": "2026-07-10T21:34:23.061861+00:00"}
+{"message": "process initialized", "level": "INFO", "name": "livekit.agents", "pid": 158094, "elapsed_time": 0.01, "timestamp": "2026-07-10T21:34:23.062196+00:00"}
+{"message": "process initialized", "level": "INFO", "name": "livekit.agents", "pid": 158096, "elapsed_time": 0.01, "timestamp": "2026-07-10T21:34:23.066730+00:00"}
+{"message": "initializing process", "level": "INFO", "name": "livekit.agents", "pid": 158106, "timestamp": "2026-07-10T21:34:23.069306+00:00"}
+{"message": "process initialized", "level": "INFO", "name": "livekit.agents", "pid": 158100, "elapsed_time": 0.01, "timestamp": "2026-07-10T21:34:23.074752+00:00"}
+{"message": "initializing process", "level": "INFO", "name": "livekit.agents", "pid": 158109, "timestamp": "2026-07-10T21:34:23.075996+00:00"}
+{"message": "process initialized", "level": "INFO", "name": "livekit.agents", "pid": 158106, "elapsed_time": 0.01, "timestamp": "2026-07-10T21:34:23.082126+00:00"}
+{"message": "initializing process", "level": "INFO", "name": "livekit.agents", "pid": 158113, "timestamp": "2026-07-10T21:34:23.083203+00:00"}
+{"message": "process initialized", "level": "INFO", "name": "livekit.agents", "pid": 158109, "elapsed_time": 0.01, "timestamp": "2026-07-10T21:34:23.085388+00:00"}
+{"message": "initializing process", "level": "INFO", "name": "livekit.agents", "pid": 158118, "timestamp": "2026-07-10T21:34:23.089225+00:00"}
+{"message": "process initialized", "level": "INFO", "name": "livekit.agents", "pid": 158113, "elapsed_time": 0.01, "timestamp": "2026-07-10T21:34:23.095346+00:00"}
+{"message": "initializing process", "level": "INFO", "name": "livekit.agents", "pid": 158121, "timestamp": "2026-07-10T21:34:23.096382+00:00"}
+{"message": "process initialized", "level": "INFO", "name": "livekit.agents", "pid": 158118, "elapsed_time": 0.01, "timestamp": "2026-07-10T21:34:23.102775+00:00"}
+{"message": "initializing process", "level": "INFO", "name": "livekit.agents", "pid": 158125, "timestamp": "2026-07-10T21:34:23.103229+00:00"}
+{"message": "process initialized", "level": "INFO", "name": "livekit.agents", "pid": 158121, "elapsed_time": 0.01, "timestamp": "2026-07-10T21:34:23.108191+00:00"}
+{"message": "initializing process", "level": "INFO", "name": "livekit.agents", "pid": 158130, "timestamp": "2026-07-10T21:34:23.110375+00:00"}
+{"message": "process initialized", "level": "INFO", "name": "livekit.agents", "pid": 158125, "elapsed_time": 0.01, "timestamp": "2026-07-10T21:34:23.113273+00:00"}
+{"message": "initializing process", "level": "INFO", "name": "livekit.agents", "pid": 158134, "timestamp": "2026-07-10T21:34:23.116849+00:00"}
+{"message": "process initialized", "level": "INFO", "name": "livekit.agents", "pid": 158130, "elapsed_time": 0.01, "timestamp": "2026-07-10T21:34:23.122325+00:00"}
+{"message": "initializing process", "level": "INFO", "name": "livekit.agents", "pid": 158137, "timestamp": "2026-07-10T21:34:23.124304+00:00"}
+{"message": "process initialized", "level": "INFO", "name": "livekit.agents", "pid": 158134, "elapsed_time": 0.01, "timestamp": "2026-07-10T21:34:23.126920+00:00"}
+{"message": "initializing process", "level": "INFO", "name": "livekit.agents", "pid": 158141, "timestamp": "2026-07-10T21:34:23.130788+00:00"}
+{"message": "process initialized", "level": "INFO", "name": "livekit.agents", "pid": 158137, "elapsed_time": 0.01, "timestamp": "2026-07-10T21:34:23.134118+00:00"}
+{"message": "initializing process", "level": "INFO", "name": "livekit.agents", "pid": 158144, "timestamp": "2026-07-10T21:34:23.137173+00:00"}
+{"message": "process initialized", "level": "INFO", "name": "livekit.agents", "pid": 158141, "elapsed_time": 0.01, "timestamp": "2026-07-10T21:34:23.140810+00:00"}
+{"message": "process initialized", "level": "INFO", "name": "livekit.agents", "pid": 158144, "elapsed_time": 0.01, "timestamp": "2026-07-10T21:34:23.145571+00:00"}
+/home/da3l/PycharmProjects/pre-interview-prototype/Interview-Agent-Prototype/.venv/lib/python3.13/site-packages/jwt/api_jwt.py:147: InsecureKeyLengthWarning: The HMAC key is 6 bytes long, which is below the minimum recommended length of 32 bytes for SHA256. See RFC 7518 Section 3.2.
+  return self._jws.encode(
+{"message": "registered worker", "level": "INFO", "name": "livekit.agents", "agent_name": "interview-agent", "deployment": "", "id": "AW_Q5NmTgxgFxiR", "url": "ws://localhost:7880", "region": "", "protocol": 17, "timestamp": "2026-07-10T21:34:23.149423+00:00"}
+{"message": "draining worker", "level": "INFO", "name": "livekit.agents", "id": "AW_Q5NmTgxgFxiR", "timeout": 1800, "timestamp": "2026-07-10T21:34:27.170924+00:00"}
+{"message": "shutting down worker", "level": "INFO", "name": "livekit.agents", "id": "AW_Q5NmTgxgFxiR", "timestamp": "2026-07-10T21:34:27.171392+00:00"}

@@ -2,156 +2,106 @@
   <img src="./.github/assets/livekit-mark.png" alt="LiveKit logo" width="100" height="100">
 </a>
 
-# LiveKit Agents Starter - Python
+# Interview Agent
 
-A complete starter project for building voice AI apps with [LiveKit Agents for Python](https://github.com/livekit/agents) and [LiveKit Cloud](https://cloud.livekit.io/).
+A voice AI interview agent built with [LiveKit Agents for Python](https://github.com/livekit/agents) and [LiveKit Cloud](https://cloud.livekit.io/). The agent conducts a structured voice interview with a candidate on any topic. The interviewer asks questions one at a time, probes for deeper answers, and assesses the candidate's knowledge — all through natural speech.
 
-The starter project includes:
+## Architecture
 
-- A simple voice AI assistant, ready for extension and customization
-- A voice AI pipeline built on [LiveKit Inference](https://docs.livekit.io/agents/models/inference)
-  with [models](https://docs.livekit.io/agents/models) from OpenAI, Cartesia, and Deepgram. More than 50 other model providers are supported, including [Realtime models](https://docs.livekit.io/agents/models/realtime)
-- Eval suite based on the LiveKit Agents [testing & evaluation framework](https://docs.livekit.io/agents/start/testing/)
-- [LiveKit Turn Detector](https://docs.livekit.io/agents/logic/turns/turn-detector/), an end-of-turn model that listens to the user's audio directly, combining semantic understanding with acoustic cues for state-of-the-art accuracy across 14 languages
-- [Background voice cancellation](https://docs.livekit.io/transport/media/noise-cancellation/)
-- Deep session insights from LiveKit [Agent Observability](https://docs.livekit.io/deploy/observability/)
-- A Dockerfile ready for [production deployment to LiveKit Cloud](https://docs.livekit.io/deploy/agents/)
+The project has two main components that run together:
 
-This starter app is compatible with any [custom web/mobile frontend](https://docs.livekit.io/frontends/) or [telephony](https://docs.livekit.io/telephony/).
+**Agent server** (`src/agent.py`)
+The LiveKit agent that connects to a room and conducts the interview using Google Gemini Realtime (voice `Puck`). It receives the interview topic via room metadata, greets the candidate, and runs the full interview flow.
 
-## Using coding agents
+**TUI client** (`src/tui/`)
+A Textual-based terminal UI that connects to the same room as the candidate. It publishes microphone audio, receives agent audio (played through the speaker), and displays:
+- Connection status
+- Transcripts of the conversation
+- Microphone mute/unmute control (M key or button)
+- A live audio level bar showing when the agent is speaking
 
-This project is designed to work with coding agents like [Claude Code](https://claude.com/product/claude-code), [Cursor](https://www.cursor.com/), and [Codex](https://openai.com/codex/).
+> **Note:** The TUI is a prototype client. In production, the candidate would connect through a custom web or mobile frontend instead.
 
-For your convenience, LiveKit offers both a CLI and an [MCP server](https://docs.livekit.io/reference/developer-tools/docs-mcp/) that can be used to browse and search its documentation. The [LiveKit CLI](https://docs.livekit.io/intro/basics/cli/) (`lk docs`) works with any coding agent that can run shell commands. Install it for your platform:
+## Prerequisites
 
-**macOS:**
+- Python 3.10+
+- [uv](https://docs.astral.sh/uv/) package manager
+- A [LiveKit Cloud](https://cloud.livekit.io/) account
+- A [Google AI Studio](https://aistudio.google.com/apikey) API key
 
-```console
-brew install livekit-cli
-```
+## Setup
 
-**Linux:**
-
-```console
-curl -sSL https://get.livekit.io/cli | bash
-```
-
-**Windows:**
+Clone the repo and install dependencies:
 
 ```console
-winget install LiveKit.LiveKitCLI
-```
-
-The `lk docs` subcommand requires version 2.15.0 or higher. Check your version with `lk --version` and update if needed. Once installed, your coding agent can search and browse LiveKit documentation directly from the terminal:
-
-```console
-lk docs search "voice agents"
-lk docs get-page /agents/start/voice-ai-quickstart
-```
-
-See the [Using coding agents](https://docs.livekit.io/intro/coding-agents/) guide for more details, including MCP server setup.
-
-The project includes a complete [AGENTS.md](AGENTS.md) file for these assistants. You can modify this file to suit your needs. To learn more about this file, see [https://agents.md](https://agents.md).
-
-## Dev Setup
-
-Create a project from this template with the LiveKit CLI (recommended):
-
-```bash
-lk cloud auth
-lk agent init my-agent --template agent-starter-python
-```
-
-The CLI clones the template and configures your environment. Then follow the rest of this guide from [Run the agent](#run-the-agent).
-
-<details>
-<summary>Alternative: Manual setup without the CLI</summary>
-
-Clone the repository and install dependencies to a virtual environment:
-
-```console
-cd agent-starter-python
+git clone <repo-url>
+cd interview-agent
 uv sync
 ```
 
-Sign up for [LiveKit Cloud](https://cloud.livekit.io/) then set up the environment by copying `.env.example` to `.env.local` and filling in the required keys:
-
-- `LIVEKIT_URL`
-- `LIVEKIT_API_KEY`
-- `LIVEKIT_API_SECRET`
-
-You can load the LiveKit environment automatically using the [LiveKit CLI](https://docs.livekit.io/intro/basics/cli/):
-
-```bash
-lk cloud auth
-lk app env --write --destination .env.local
-```
-
-</details>
-
-## Run the agent
-
-Run this command to speak to your agent directly in your terminal:
+Create `.env.local` from the example and fill in your credentials:
 
 ```console
-uv run python src/agent.py console
+cp .env.example .env.local
 ```
 
-To run the agent for use with a frontend or telephony, use the `dev` command:
+Required environment variables:
+
+| Variable | Description |
+|---|---|
+| `LIVEKIT_URL` | Your LiveKit Cloud WebSocket URL (e.g. `wss://xxx.livekit.cloud`) |
+| `LIVEKIT_API_KEY` | Your LiveKit API key |
+| `LIVEKIT_API_SECRET` | Your LiveKit API secret |
+| `GOOGLE_API_KEY` | Your Google AI Studio API key for Gemini |
+
+## Running
+
+The `run.sh` script starts both the agent server and the TUI:
 
 ```console
-uv run python src/agent.py dev
+./run.sh
 ```
 
-In production, use the `start` command:
+This starts the agent server in the background, waits briefly, then launches the TUI. When you close the TUI, the agent server is shut down automatically.
+
+Alternatively, run each component in separate terminals:
 
 ```console
+# Terminal 1: Start the agent server
 uv run python src/agent.py start
+
+# Terminal 2: Launch the TUI
+uv run python -m src.tui
 ```
 
-## Frontend & Telephony
+### Using the TUI
 
-Get started quickly with our pre-built frontend starter apps, or add telephony support:
+1. Enter an **interview topic** (e.g. "Python async/await", "System Design", "Golang")
+2. Optionally enter a **room name** (or leave empty for auto-generated)
+3. Click **Connect** or press Enter
+4. Hold **M** or click **Mute** to mute/unmute your microphone
+5. Click **Leave** when done
 
-| Platform | Link | Description |
-|----------|----------|-------------|
-| **Web** | [`livekit-examples/agent-starter-react`](https://github.com/livekit-examples/agent-starter-react) | Web voice AI assistant with React & Next.js |
-| **iOS/macOS** | [`livekit-examples/agent-starter-swift`](https://github.com/livekit-examples/agent-starter-swift) | Native iOS, macOS, and visionOS voice AI assistant |
-| **Flutter** | [`livekit-examples/agent-starter-flutter`](https://github.com/livekit-examples/agent-starter-flutter) | Cross-platform voice AI assistant app |
-| **React Native** | [`livekit-examples/voice-assistant-react-native`](https://github.com/livekit-examples/voice-assistant-react-native) | Native mobile app with React Native & Expo |
-| **Android** | [`livekit-examples/agent-starter-android`](https://github.com/livekit-examples/agent-starter-android) | Native Android app with Kotlin & Jetpack Compose |
-| **Web Embed** | [`livekit-examples/agent-starter-embed`](https://github.com/livekit-examples/agent-starter-embed) | Voice AI widget for any website |
-| **Telephony** | [Documentation](https://docs.livekit.io/telephony/) | Add inbound or outbound calling to your agent |
-
-For advanced customization, see the [complete frontend guide](https://docs.livekit.io/frontends/).
-
-## Tests and evals
-
-This project includes a complete suite of evals, based on the LiveKit Agents [testing & evaluation framework](https://docs.livekit.io/agents/start/testing/). To run them, use `pytest`.
+## Tests
 
 ```console
 uv run pytest
 ```
 
-## Using this template repo for your own project
+## Project structure
 
-Once you've started your own project based on this repo, you should:
-
-1. **Check in your `uv.lock`**: This file is currently untracked for the template, but you should commit it to your repository for reproducible builds and proper configuration management. (The same applies to `livekit.toml`, if you run your agents in LiveKit Cloud)
-
-2. **Remove the git tracking test**: Delete the "Check files not tracked in git" step from `.github/workflows/tests.yml` since you'll now want this file to be tracked. These are just there for development purposes in the template repo itself.
-
-3. **Add your own repository secrets**: You must [add secrets](https://docs.github.com/en/actions/how-tos/writing-workflows/choosing-what-your-workflow-does/using-secrets-in-github-actions) for `LIVEKIT_URL`, `LIVEKIT_API_KEY`, and `LIVEKIT_API_SECRET` so that the tests can run in CI.
-
-## Deploying to production
-
-This project is production-ready and includes a working `Dockerfile`. To deploy it to LiveKit Cloud or another environment, see the [deploying to production](https://docs.livekit.io/deploy/agents/) guide.
-
-## Self-hosted LiveKit
-
-You can also self-host LiveKit instead of using LiveKit Cloud. See the [self-hosting](https://docs.livekit.io/transport/self-hosting/local/) guide for more information. If you choose to self-host, you'll need to also use [model plugins](https://docs.livekit.io/agents/models/#plugins) instead of LiveKit Inference and will need to remove the [LiveKit Cloud noise cancellation](https://docs.livekit.io/transport/media/noise-cancellation/) plugin.
+```
+src/
+  agent.py            LiveKit agent server — handles the interview session
+  voice_engine.py     Audio layer — ALSA capture/playback, LiveKit source publishing
+  state.py            Shared state between voice engine and TUI
+  tui/
+    app.py            Main TUI application — room connection, screen navigation
+    screens/
+      setup.py        Topic/room input screen
+      interview.py    Live interview screen — transcript, status, mute control
+```
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT
