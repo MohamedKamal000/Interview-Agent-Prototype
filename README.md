@@ -1,7 +1,3 @@
-<a href="https://livekit.io/">
-  <img src="./.github/assets/livekit-mark.png" alt="LiveKit logo" width="100" height="100">
-</a>
-
 # Interview Agent
 
 A voice AI interview agent built with [LiveKit Agents for Python](https://github.com/livekit/agents) and [LiveKit Cloud](https://cloud.livekit.io/). The agent conducts a structured voice interview with a candidate on any topic. The interviewer asks questions one at a time, probes for deeper answers, and assesses the candidate's knowledge — all through natural speech.
@@ -15,6 +11,7 @@ The LiveKit agent that connects to a room and conducts the interview using Googl
 
 **TUI client** (`src/tui/`)
 A Textual-based terminal UI that connects to the same room as the candidate. It publishes microphone audio, receives agent audio (played through the speaker), and displays:
+
 - Connection status
 - Transcripts of the conversation
 - Microphone mute/unmute control (M key or button)
@@ -47,12 +44,12 @@ cp .env.example .env.local
 
 Required environment variables:
 
-| Variable | Description |
-|---|---|
-| `LIVEKIT_URL` | Your LiveKit Cloud WebSocket URL (e.g. `wss://xxx.livekit.cloud`) |
-| `LIVEKIT_API_KEY` | Your LiveKit API key |
-| `LIVEKIT_API_SECRET` | Your LiveKit API secret |
-| `GOOGLE_API_KEY` | Your Google AI Studio API key for Gemini |
+| Variable             | Description                                                       |
+| -------------------- | ----------------------------------------------------------------- |
+| `LIVEKIT_URL`        | Your LiveKit Cloud WebSocket URL (e.g. `wss://xxx.livekit.cloud`) |
+| `LIVEKIT_API_KEY`    | Your LiveKit API key                                              |
+| `LIVEKIT_API_SECRET` | Your LiveKit API secret                                           |
+| `GOOGLE_API_KEY`     | Your Google AI Studio API key for Gemini                          |
 
 ## Running
 
