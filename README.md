@@ -19,6 +19,8 @@ A Textual-based terminal UI that connects to the same room as the candidate. It 
 
 > **Note:** The TUI is a prototype client. In production, the candidate would connect through a custom web or mobile frontend instead.
 
+> **Note:** in case you couldn't run it, here is a quick demo you can watch [demo](https://www.youtube.com/watch?v=OC2m5nYBMDU)
+
 ## Prerequisites
 
 - Python 3.10+
